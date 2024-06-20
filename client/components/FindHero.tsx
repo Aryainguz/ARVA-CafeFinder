@@ -42,7 +42,7 @@ export default function FindHero() {
         <div>
             <div className='mt-[70px]'>
          <div>
-  <h1 className="px-6 text-lg text-gray-600 font-inter">Finding Cafes made easy. By ARVA</h1>
+  <h1 className="px-10 sm:px-6 text-lg text-gray-600 font-inter">Finding Cafes made easy. For ARVA</h1>
   <p className="mt-2 sm:mt-4 text-4xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-6xl lg:leading-tight font-pj">
     Find Your Next 
     <span className="relative inline-flex sm:inline">
@@ -62,7 +62,7 @@ export default function FindHero() {
                 </div>
                 <div className='flex flex-col justify-center items-center '>
                   <h2>Or Browse the category</h2>
-                  <div className='grid grid-cols-4 p-4 sm:grid-cols-8 justify-center mt-2 gap-10 z-10'>
+                  <div className='grid grid-cols-4 p-8 sm:grid-cols-8 justify-center mt-2 gap-10 z-10'>
                     {category.map((item,index)=>(
                       <div key={index} className=' border-[1px] rounded-full w-[60px] p-4 bg-white hover:border-amber-700 hover:scale-110 cursor-pointer'>
                         {item.icon}
