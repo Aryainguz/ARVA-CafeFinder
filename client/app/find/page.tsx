@@ -1,6 +1,7 @@
 "use client"
 import Cafes from '@/components/Cafes'
 import FindHero from '@/components/FindHero'
+import Footer from '@/components/Footer'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
     <>
       <FindHero/>
       <Cafes cafesList={cafesList}/>
+      <Footer />
       </>
   )
 }
