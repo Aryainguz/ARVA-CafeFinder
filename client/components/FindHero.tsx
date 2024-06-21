@@ -1,21 +1,11 @@
-import { AirVent, Car, Hotel, Map, RocketIcon, Star, StarsIcon, Wifi } from 'lucide-react'
+import { filterContext } from '@/context/filterContext'
+import { DollarSign, Hotel, RocketIcon, Star } from 'lucide-react'
+import { useContext } from 'react'
 
 
 const category = [
   {
-    name: 'Wifi',
-    icon: <Wifi size={30} />
-  },
-  {
-    name: 'AC',
-    icon: <AirVent size={30} />
-  },
-  {
-    name: 'Park',
-    icon: <Car size={30} />
-  },
-  {
-    name: 'Rest',
+    name: 'Open',
     icon: <Hotel size={30} />
   },
   {
@@ -23,20 +13,19 @@ const category = [
     icon: <Star size={30} />
   },
   {
+    name:"Price",
+    icon: <DollarSign size={30} />
+  },
+  {
     name:"New",
-    icon: <StarsIcon size={30} />
-  },
-  {
-    name:"Near",
-    icon: <Map size={30} />
-  },
-  {
-    name:"Fast",
     icon: <RocketIcon size={30} />
   }
 ]
 
 export default function FindHero() {
+
+  const {setFilter} = useContext(filterContext)
+
   return (
     <div className='text-center'>
         <div>
@@ -53,7 +42,13 @@ export default function FindHero() {
 </div>
 
                 <div className='pt-4 flex justify-center gap-3 my-4'>
-                      <input type="text" id="search" name="search" placeholder='Search Anything' className='z-10 p-3 bg-white border-[1px] rounded-full shadow-sm px-5 pr-[30px] sm:pr-[400px] outline-amber-700 '></input>
+                      <input type="text" id="search" name="search" placeholder='Search Anything' className='z-10 p-3 bg-white border-[1px] rounded-full shadow-sm px-5 pr-[30px] sm:pr-[400px] outline-amber-700 '
+                      onChange={
+                        (e)=>{
+                          setFilter(e.target.value)
+                        }
+                      }
+                      ></input>
                       <button className='bg-amber-900 rounded-full p-3 hover:scale-105 z-10 shadow-sm transition-all'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -62,9 +57,11 @@ export default function FindHero() {
                 </div>
                 <div className='flex flex-col justify-center items-center '>
                   <h2>Or Browse the category</h2>
-                  <div className='grid grid-cols-4 p-8 sm:grid-cols-8 justify-center mt-2 gap-10 z-10'>
-                    {category.map((item,index)=>(
-                      <div key={index} className=' border-[1px] rounded-full w-[60px] p-4 bg-white hover:border-amber-700 hover:scale-110 cursor-pointer'>
+                  <div className='grid grid-cols-4 p-8 sm:grid-cols-4 justify-center mt-2 gap-10 z-10'>
+                    {category.map((item:any,index:any)=>(
+                      <div key={index} className=' border-[1px] rounded-full w-[60px] p-4 bg-white hover:border-amber-700 hover:scale-110 cursor-pointer' onClick={
+                        ()=>setFilter(item.name)
+                      }>
                         {item.icon}
                         <p>{item.name}</p>
                       </div>
