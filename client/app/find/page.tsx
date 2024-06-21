@@ -15,7 +15,9 @@ export default function Home() {
     const res = await fetch('/api/google-place-api?q=cafes in bangalore')
     const data = await res.json()
     setCafesList(data.data.results)
+    console.log(data.data.results)
   } 
+
   return (
     <>
       <FindHero/>

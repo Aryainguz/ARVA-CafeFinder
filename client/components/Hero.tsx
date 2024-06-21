@@ -1,5 +1,5 @@
 import { Coffee } from "lucide-react";
-import React, { useState } from "react";
+import Link from "next/link";
 
 const ComponentName = () => {
   return (
@@ -19,14 +19,14 @@ const ComponentName = () => {
               </p>
 
               <div className="max-w-xl mx-auto mt-8 bg-white lg:mx-0 sm:bg-transparent lg:mt-12 rounded-xl">
-                <div className="p-4 sm:p-2 sm:bg-white sm:border-2 sm:border-transparent sm:rounded-full sm:focus-within:border-amber-500 sm:focus-within:ring-1 sm:focus-within:ring-amber-500">
+                <div className="p-4 sm:p-2 sm:bg-white sm:border-2 sm:border-transparent sm:rounded-full">
                   <div className="flex flex-col items-start sm:flex-row">
-                    <button
-                      type="submit"
-                      className="inline-flex items-center justify-center w-full px-4 py-4 mt-4 font-semibold text-white transition-all duration-200 bg-amber-800 border border-transparent rounded-full sm:w-auto sm:ml-4 sm:mt-0 hover:bg-amber-900 focus:bg-orange-600"
+                    <Link
+                     href={`/find`}
+                      className="inline-flex items-center justify-center w-full px-4 py-4 mt-4 font-semibold text-white transition-all duration-200 bg-amber-800 border border-transparent rounded-full sm:w-auto sm:ml-4 sm:mt-0"
                     >
                       Get Started Now
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -43,7 +43,6 @@ const ComponentName = () => {
 
           <div className="relative w-full overflow-hidden lg:order-1 h-96 lg:h-auto lg:w-5/12">
             <div className="absolute inset-0">
-              {/* <img className="object-cover w-full h-full scale-150" src="/hero2.jpg" alt="" /> */}
               <video
                 className="object-cover w-full h-full scale-150 "
                 muted

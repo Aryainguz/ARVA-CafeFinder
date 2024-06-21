@@ -31,9 +31,9 @@ CAFE FINDER
               Contact us
             </Button>
           </a>
-          <a href="">
-            <Button className="text-md bg-amber-900">Find Your Cafe</Button>
-          </a>
+          <Link href={'/find'}>
+            <Button className="text-md bg-amber-900 hover:bg-amber-800">Find Your Cafe</Button>
+          </Link>
         </div>
       </div>
     </>
