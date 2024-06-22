@@ -4,6 +4,14 @@ import NodeCache from "node-cache";
 import { config } from "dotenv";
 import { connectDB } from "./utils/db";
 
+
+
+// Importing Routes
+
+import cafeRoute from "./routes/cafe";
+import productRoute from "./routes/product";
+
+
 config({
   path: "./.env",
 });
@@ -38,6 +46,12 @@ app.use(
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
+
+
+// Using Routes
+app.use("/api/v1/cafe", cafeRoute);
+app.use("/api/v1/product", productRoute);
+
 
 const port = 5000 || process.env.PORT;
 
