@@ -32,7 +32,8 @@ const createCafe = async (req, res) => {
 exports.createCafe = createCafe;
 const getAllCafes = async (req, res) => {
     try {
-        res.status(200).json({ message: "All cafes fetched successfully" });
+        const cafes = await cafe_1.Cafe.find();
+        res.status(200).json({ cafes });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
@@ -41,7 +42,12 @@ const getAllCafes = async (req, res) => {
 exports.getAllCafes = getAllCafes;
 const getCafeById = async (req, res) => {
     try {
-        res.status(200).json({ message: "Cafe fetched successfully" });
+        const { id } = req.params;
+        const cafe = await cafe_1.Cafe.findById(id);
+        if (!cafe) {
+            return res.status(404).json({ error: "Cafe not found" });
+        }
+        res.status(200).json({ cafe });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
@@ -50,6 +56,26 @@ const getCafeById = async (req, res) => {
 exports.getCafeById = getCafeById;
 const updateCafe = async (req, res) => {
     try {
+        const { name, location, rating, minPriceRange } = req.body;
+        const { id } = req.params;
+        const cafe = await cafe_1.Cafe.findById(id);
+        if (!cafe) {
+            return res.status(404).json({ error: "Cafe not found" });
+        }
+        if (req.file) {
+            const uploadResult = await (0, cloudinary_1.handleUpload)(req.file.path);
+            cafe.image = uploadResult.secure_url;
+            fs_1.default.unlinkSync(req.file.path);
+        }
+        if (name)
+            cafe.name = name;
+        if (location)
+            cafe.location = location;
+        if (rating)
+            cafe.rating = rating;
+        if (minPriceRange)
+            cafe.minPriceRange = minPriceRange;
+        await cafe.save();
         res.status(200).json({ message: "Cafe updated successfully" });
     }
     catch (error) {
@@ -59,7 +85,12 @@ const updateCafe = async (req, res) => {
 exports.updateCafe = updateCafe;
 const deleteCafe = async (req, res) => {
     try {
-        res.status(200).json({ message: "Cafe deleted successfully" });
+        const { id } = req.params;
+        const cafe = await cafe_1.Cafe.findById(id);
+        if (!cafe) {
+            return res.status(404).json({ error: "Cafe not found" });
+        }
+        await cafe.deleteOne();
     }
     catch (error) {
         res.status(500).json({ error: error.message });
