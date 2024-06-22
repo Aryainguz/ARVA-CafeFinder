@@ -1,5 +1,17 @@
 import express from "express";
 import cors from "cors";
+import NodeCache from "node-cache";
+import { config } from "dotenv";
+import { connectDB } from "./utils/db";
+
+config({
+  path: "./.env",
+});
+
+const mongoURI = process.env.MONGO_URI || "";
+connectDB(mongoURI);
+
+export const myCache = new NodeCache();
 
 const app = express();
 
