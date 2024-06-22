@@ -1,11 +1,12 @@
 import express from "express";
 import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from "../controllers/product";
+import upload from "../middlewares/multer";
 
 
 const app = express.Router();
 
 
-app.post("/new",createProduct)
+app.post("/new",upload,createProduct)
 
 app.get("/all",getAllProducts)
 
@@ -13,7 +14,7 @@ app.get("/all",getAllProducts)
 app
   .route("/:id")
   .get(getProductById)
-  .put(updateProduct)
+  .put(upload,updateProduct)
   .delete(deleteProduct);
 
 export default app;

@@ -3,8 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.myCache = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const node_cache_1 = __importDefault(require("node-cache"));
+const dotenv_1 = require("dotenv");
+const db_1 = require("./utils/db");
+// Importing Routes
+const cafe_1 = __importDefault(require("./routes/cafe"));
+const product_1 = __importDefault(require("./routes/product"));
+(0, dotenv_1.config)({
+    path: "./.env",
+});
+const mongoURI = process.env.MONGO_URI || "";
+(0, db_1.connectDB)(mongoURI);
+exports.myCache = new node_cache_1.default();
 const app = (0, express_1.default)();
 app.get("/", (req, res) => {
     res.send("api v1 for ARVA.HEALTH is working!");
@@ -25,6 +38,9 @@ app.use((0, cors_1.default)({
     },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
+// Using Routes
+app.use("/api/v1/cafe", cafe_1.default);
+app.use("/api/v1/product", product_1.default);
 const port = 5000 || process.env.PORT;
 app.listen(port, () => {
     console.log(`Express is working on http://localhost:${port}`);

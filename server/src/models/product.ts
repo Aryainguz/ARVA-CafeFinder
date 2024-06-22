@@ -1,23 +1,35 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-const productSchema = new mongoose.Schema({
+interface Product extends Document {
+  coffeeShopId: mongoose.Schema.Types.ObjectId;
+  name: string;
+  price: number;
+  category: string;
+  image: string;
+}
+
+const productSchema: Schema = new Schema({
   coffeeShopId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'CoffeeShop',
-    required: true
+    ref: "CoffeeShop",
+    required: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
   category: {
     type: String,
-    required: true  // e.g., Coffee, Drinks, Food
-  }
+    required: true, // e.g., Coffee, Drinks, Food
+  },
+  image: {
+    type: String,
+    required: true,
+  },
 });
 
-export const Product = mongoose.model("Product", productSchema);
+export const Product = mongoose.model<Product>("CoffeeShop", productSchema);

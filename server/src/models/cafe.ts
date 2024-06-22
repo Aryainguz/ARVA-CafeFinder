@@ -1,25 +1,19 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
-const coffeeShopSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  location: {
-    type: String,
-    required: true
-  },
-  rating: {
-    type: Number,
-    required: true
-  },
-  minPriceRange: {
-    type: String,
-    required: true
-  },
-  images: {
-    type: String
-  }
+interface CoffeeShop extends Document {
+  name: string;
+  location: string;
+  rating: string;
+  image: string; 
+  minPriceRange: number;
+}
+
+const CoffeeShopSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  location: { type: String, required: true },
+  rating: { type: String, required: true },
+  image: { type: String, required: true }, 
+  minPriceRange: { type: Number, required: true },
 });
 
-export const CoffeeShop = mongoose.model("CoffeeShop", coffeeShopSchema);
+export const Cafe =  mongoose.model<CoffeeShop>('CoffeeShop', CoffeeShopSchema);
