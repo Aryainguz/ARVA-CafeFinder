@@ -16,4 +16,4 @@ const CoffeeShopSchema: Schema = new Schema({
   minPriceRange: { type: Number, required: true },
 });
 
-export const Cafe =  mongoose.model<CoffeeShop>('CoffeeShop', CoffeeShopSchema);
+export const Cafe =  mongoose.models.Cafe || mongoose.model<CoffeeShop>('CoffeeShop', CoffeeShopSchema);

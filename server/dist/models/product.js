@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const productSchema = new mongoose_1.Schema({
-    coffeeShopId: {
+    cafeId: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "CoffeeShop",
         required: true,
@@ -48,4 +48,4 @@ const productSchema = new mongoose_1.Schema({
         required: true,
     },
 });
-exports.Product = mongoose_1.default.model("CoffeeShop", productSchema);
+exports.Product = mongoose_1.default.models.Product || mongoose_1.default.model('Product', productSchema);

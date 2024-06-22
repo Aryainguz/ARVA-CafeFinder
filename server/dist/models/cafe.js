@@ -32,4 +32,4 @@ const CoffeeShopSchema = new mongoose_1.Schema({
     image: { type: String, required: true },
     minPriceRange: { type: Number, required: true },
 });
-exports.Cafe = mongoose_1.default.model('CoffeeShop', CoffeeShopSchema);
+exports.Cafe = mongoose_1.default.models.Cafe || mongoose_1.default.model('CoffeeShop', CoffeeShopSchema);
