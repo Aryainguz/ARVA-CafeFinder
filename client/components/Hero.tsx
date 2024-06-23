@@ -22,7 +22,7 @@ const ComponentName = () => {
                 <div className="p-4 sm:p-2 sm:bg-white sm:border-2 sm:border-transparent sm:rounded-full">
                   <div className="flex flex-col items-start sm:flex-row">
                     <Link
-                     href={`/find`}
+                      href={`/find`}
                       className="inline-flex items-center justify-center w-full px-4 py-4 mt-4 font-semibold text-white transition-all duration-200 bg-amber-800 border border-transparent rounded-full sm:w-auto sm:ml-4 sm:mt-0"
                     >
                       Get Started Now
@@ -49,7 +49,7 @@ const ComponentName = () => {
                 loop
                 autoPlay
               >
-                <source src="/herovideo.mp4" type="video/mp4" />
+                <source src="/src/heroVideo.mp4" type="video/mp4" />
               </video>
             </div>
 
