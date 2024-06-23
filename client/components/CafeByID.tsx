@@ -92,11 +92,11 @@ export default function CafeByID({data,cafeImg,cafeName}:any) {
         
                 <div className="grid grid-cols-2 gap-6 mt-10 lg:mt-16 lg:gap-4 lg:grid-cols-4">
 
-                {data.map((product:any) => (
+                {data.map((product:any,index:any) => (
 
 
                    
-                    <div className="relative group cursor-pointer">
+                    <div className="relative group cursor-pointer" key={index}>
                     <div>
                     <img className="object-cover w-72 h-72 transition-all duration-300" src={product.image} alt="" />
                     </div>
