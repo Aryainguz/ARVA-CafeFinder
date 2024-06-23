@@ -12,6 +12,7 @@ const db_1 = require("./utils/db");
 // Importing Routes
 const cafe_1 = __importDefault(require("./routes/cafe"));
 const product_1 = __importDefault(require("./routes/product"));
+const admin_1 = __importDefault(require("./routes/admin"));
 (0, dotenv_1.config)({
     path: "./.env",
 });
@@ -41,6 +42,7 @@ app.use((0, cors_1.default)({
 // Using Routes
 app.use("/api/v1/cafe", cafe_1.default);
 app.use("/api/v1/product", product_1.default);
+app.use("/api/v1/amin", admin_1.default);
 const port = 5000 || process.env.PORT;
 app.listen(port, () => {
     console.log(`Express is working on http://localhost:${port}`);

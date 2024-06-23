@@ -19,6 +19,7 @@ export default function Home() {
   const getCafeLists = async () => {
     const res = await fetch('/api/google-place-api?q=cafes in bangalore')
     const data = await res.json()
+    console.log(data)
     setCafesList(data.data.results)
     console.log(data.data.results)
     setIsLoading(false)

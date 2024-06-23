@@ -10,6 +10,7 @@ import { connectDB } from "./utils/db";
 
 import cafeRoute from "./routes/cafe";
 import productRoute from "./routes/product";
+import adminRoute from "./routes/admin";
 
 
 config({
@@ -51,6 +52,8 @@ app.use(
 // Using Routes
 app.use("/api/v1/cafe", cafeRoute);
 app.use("/api/v1/product", productRoute);
+app.use("/api/v1/amin", adminRoute);
+
 
 
 const port = 5000 || process.env.PORT;

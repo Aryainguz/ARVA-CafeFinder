@@ -27,9 +27,12 @@ exports.Cafe = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const CoffeeShopSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    location: { type: String, required: true },
+    formatted_address: { type: String, required: true },
     rating: { type: String, required: true },
     image: { type: String, required: true },
-    minPriceRange: { type: Number, required: true },
+    price_level: { type: Number, required: true },
+    user_ratings_total: { type: Number, required: true },
+    open_now: { type: Boolean, required: true },
+    place_id: { type: String, required: true },
 });
 exports.Cafe = mongoose_1.default.models.Cafe || mongoose_1.default.model('CoffeeShop', CoffeeShopSchema);

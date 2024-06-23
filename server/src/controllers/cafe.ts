@@ -6,9 +6,9 @@ import { myCache } from "../app";
 
 export const createCafe = async (req: Request, res: Response) => {
   try {
-    const { name, location, rating, minPriceRange } = req.body;
+    const { name, formatted_address, rating, price_level,user_ratings_total,open_now,place_id } = req.body;
 
-    if (!name || !location || !rating || !minPriceRange) {
+    if (!name || !formatted_address || !rating || !price_level || !user_ratings_total || !open_now || !place_id) {
       return res.status(400).json({ error: "All fields are required" });
     }
     if (!req.file) {
@@ -21,7 +21,7 @@ export const createCafe = async (req: Request, res: Response) => {
     // Delete the local file after uploading to Cloudinary
     fs.unlinkSync(req.file.path);
 
-    await Cafe.create({ name, location, rating, image, minPriceRange });
+    await Cafe.create({ name, formatted_address, rating, image, price_level,user_ratings_total,open_now,place_id });
 
     myCache.del("cafes");
 
@@ -67,7 +67,7 @@ export const getCafeById = async (req: Request, res: Response) => {
 
 export const updateCafe = async (req: Request, res: Response) => {
   try {
-    const { name, location, rating, minPriceRange } = req.body;
+    const { name, formatted_address, rating, price_level,user_ratings_total,open_now } = req.body;
     const { id } = req.params;
 
     const cafe = await Cafe.findById(id);
@@ -81,9 +81,11 @@ export const updateCafe = async (req: Request, res: Response) => {
       fs.unlinkSync(req.file.path);
     }
     if (name) cafe.name = name;
-    if (location) cafe.location = location;
+    if (formatted_address) cafe.formatted_address = formatted_address;
     if (rating) cafe.rating = rating;
-    if (minPriceRange) cafe.minPriceRange = minPriceRange;
+    if (price_level) cafe.price_level = price_level;
+    if (user_ratings_total) cafe.user_ratings_total = user_ratings_total;
+    if (open_now) cafe.open_now = open_now;
 
     await cafe.save();
 

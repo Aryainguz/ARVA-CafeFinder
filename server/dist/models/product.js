@@ -27,8 +27,7 @@ exports.Product = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const productSchema = new mongoose_1.Schema({
     cafeId: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "CoffeeShop",
+        type: String,
         required: true,
     },
     name: {

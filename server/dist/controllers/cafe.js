@@ -10,8 +10,8 @@ const fs_1 = __importDefault(require("fs"));
 const app_1 = require("../app");
 const createCafe = async (req, res) => {
     try {
-        const { name, location, rating, minPriceRange } = req.body;
-        if (!name || !location || !rating || !minPriceRange) {
+        const { name, formatted_address, rating, price_level, user_ratings_total, open_now, place_id } = req.body;
+        if (!name || !formatted_address || !rating || !price_level || !user_ratings_total || !open_now || !place_id) {
             return res.status(400).json({ error: "All fields are required" });
         }
         if (!req.file) {
@@ -21,7 +21,7 @@ const createCafe = async (req, res) => {
         const image = uploadResult.secure_url;
         // Delete the local file after uploading to Cloudinary
         fs_1.default.unlinkSync(req.file.path);
-        await cafe_1.Cafe.create({ name, location, rating, image, minPriceRange });
+        await cafe_1.Cafe.create({ name, formatted_address, rating, image, price_level, user_ratings_total, open_now, place_id });
         app_1.myCache.del("cafes");
         res.status(201).json({ message: "Cafe created successfully" });
     }
@@ -70,7 +70,7 @@ const getCafeById = async (req, res) => {
 exports.getCafeById = getCafeById;
 const updateCafe = async (req, res) => {
     try {
-        const { name, location, rating, minPriceRange } = req.body;
+        const { name, formatted_address, rating, price_level, user_ratings_total, open_now } = req.body;
         const { id } = req.params;
         const cafe = await cafe_1.Cafe.findById(id);
         if (!cafe) {
@@ -83,12 +83,16 @@ const updateCafe = async (req, res) => {
         }
         if (name)
             cafe.name = name;
-        if (location)
-            cafe.location = location;
+        if (formatted_address)
+            cafe.formatted_address = formatted_address;
         if (rating)
             cafe.rating = rating;
-        if (minPriceRange)
-            cafe.minPriceRange = minPriceRange;
+        if (price_level)
+            cafe.price_level = price_level;
+        if (user_ratings_total)
+            cafe.user_ratings_total = user_ratings_total;
+        if (open_now)
+            cafe.open_now = open_now;
         await cafe.save();
         // Clear the cache for the updated cafe
         app_1.myCache.del(`cafe-${id}`);

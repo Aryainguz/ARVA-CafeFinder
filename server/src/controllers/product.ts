@@ -9,7 +9,7 @@ export const createProduct = async (req: Request, res: Response) => {
   try {
     const { name, price, category, cafeId } = req.body;
 
-    const cafe = await Cafe.findById(cafeId);
+    const cafe = await Cafe.find({place_id:cafeId});
     if (!cafe) {
       return res.status(404).json({ error: "Cafe not found" });
     }
@@ -28,7 +28,7 @@ export const createProduct = async (req: Request, res: Response) => {
     // Delete the local file after uploading to Cloudinary
     fs.unlinkSync(req.file.path);
 
-    await Product.create({ name, price, category, image,cafeId:cafe._id });
+    await Product.create({ name, price, category, image,cafeId:cafeId });
 
     myCache.del("products");
     res.status(200).json({ message: "Product created successfully" });
@@ -52,21 +52,29 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const getProductById = async (req: Request, res: Response) => {
+export const getProductsByCafeId = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    let product;
-    if (myCache.has(`product-${id}`)) {
-      product = JSON.parse(myCache.get(`product-${id}`) as string);
+    const cafe = await Cafe.findOne({ place_id: id });
+    const cafeImg = cafe.image;
+    let products;
+    if (myCache.has(`products-${id}`)) {
+      products = JSON.parse(myCache.get(`products-${id}`) as string);
     }
     else {
-      product = await Product.findById(id);
-      if (!product) {
+     
+
+      if (!cafe) {
+        return res.status(404).json({ error: "Cafe not found" });
+      }
+      products = await Product.find({ cafeId: id });
+
+      if (!products) {
         return res.status(404).json({ error: "Product not found" });
       }
-      myCache.set(`product-${id}`, JSON.stringify(product));
+      myCache.set(`products-${id}`, JSON.stringify(products));
     }
-    res.status(200).json({ product });
+    res.status(200).json({ products,cafeImg,cafeName:cafe.name });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

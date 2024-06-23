@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.updateProduct = exports.getProductById = exports.getAllProducts = exports.createProduct = void 0;
+exports.deleteProduct = exports.updateProduct = exports.getProductsByCafeId = exports.getAllProducts = exports.createProduct = void 0;
 const product_1 = require("../models/product");
 const cloudinary_1 = require("../utils/cloudinary");
 const fs_1 = __importDefault(require("fs"));
@@ -12,7 +12,7 @@ const app_1 = require("../app");
 const createProduct = async (req, res) => {
     try {
         const { name, price, category, cafeId } = req.body;
-        const cafe = await cafe_1.Cafe.findById(cafeId);
+        const cafe = await cafe_1.Cafe.find({ place_id: cafeId });
         if (!cafe) {
             return res.status(404).json({ error: "Cafe not found" });
         }
@@ -26,7 +26,7 @@ const createProduct = async (req, res) => {
         const image = uploadResult.secure_url;
         // Delete the local file after uploading to Cloudinary
         fs_1.default.unlinkSync(req.file.path);
-        await product_1.Product.create({ name, price, category, image, cafeId: cafe._id });
+        await product_1.Product.create({ name, price, category, image, cafeId: cafeId });
         app_1.myCache.del("products");
         res.status(200).json({ message: "Product created successfully" });
     }
@@ -52,27 +52,32 @@ const getAllProducts = async (req, res) => {
     }
 };
 exports.getAllProducts = getAllProducts;
-const getProductById = async (req, res) => {
+const getProductsByCafeId = async (req, res) => {
     try {
         const { id } = req.params;
-        let product;
-        if (app_1.myCache.has(`product-${id}`)) {
-            product = JSON.parse(app_1.myCache.get(`product-${id}`));
+        const cafe = await cafe_1.Cafe.findOne({ place_id: id });
+        const cafeImg = cafe.image;
+        let products;
+        if (app_1.myCache.has(`products-${id}`)) {
+            products = JSON.parse(app_1.myCache.get(`products-${id}`));
         }
         else {
-            product = await product_1.Product.findById(id);
-            if (!product) {
+            if (!cafe) {
+                return res.status(404).json({ error: "Cafe not found" });
+            }
+            products = await product_1.Product.find({ cafeId: id });
+            if (!products) {
                 return res.status(404).json({ error: "Product not found" });
             }
-            app_1.myCache.set(`product-${id}`, JSON.stringify(product));
+            app_1.myCache.set(`products-${id}`, JSON.stringify(products));
         }
-        res.status(200).json({ product });
+        res.status(200).json({ products, cafeImg, cafeName: cafe.name });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-exports.getProductById = getProductById;
+exports.getProductsByCafeId = getProductsByCafeId;
 const updateProduct = async (req, res) => {
     try {
         const { name, price, category, cafeId } = req.body;

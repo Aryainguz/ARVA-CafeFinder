@@ -39,7 +39,7 @@ onClick={()=>showDetails(cafe)}
             <Star size={20} className="inline mr-2" />
             {cafe.rating} <Users size={20} className="inline ml-4" /> {cafe?.user_ratings_total}
           </p>
-
+       
         </div>
       </div>
     </>

@@ -6,20 +6,18 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useContext, useEffect, useState } from "react";
-import CafeItemCard from "./ui/CafeItemCard";
-import Image from "next/image";
+import { filterContext } from "@/context/filterContext";
 import {
-  Locate,
-  Map,
   MapPin,
   Share,
   Star,
-  Stars,
-  User,
   Users,
+  ViewIcon
 } from "lucide-react";
-import { filterContext } from "@/context/filterContext";
+import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+import CafeItemCard from "./ui/CafeItemCard";
+import { useRouter } from "next/navigation";
 
 export default function Cafes({ cafesList,isLoading }: any) {
   const [selectedCafe, setSelectedCafe] = useState<any>([]);
@@ -46,6 +44,10 @@ export default function Cafes({ cafesList,isLoading }: any) {
   const toggleSheet = () => {
     setIsOpen(!isOpen);
   };
+
+
+
+  const router = useRouter();
 
   return (
     <div className="mt-10">
@@ -158,16 +160,14 @@ export default function Cafes({ cafesList,isLoading }: any) {
                   </p>
                   <button
                     onClick={() =>
-                      navigator.geolocation.getCurrentPosition((position) => {
-                        window.open(
-                          `https://www.google.com/maps/dir/${position.coords.latitude},${position.coords.longitude}/${selectedCafe?.formatted_address}`
-                        );
-                      })
+                      router.push(
+                        `/cafes/${selectedCafe?.place_id}`
+                      )
                     }
                     className="inline-flex mr-2 my-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-amber-800 rounded-lg hover:bg-amber-800"
                   >
-                    <Map size={20} className="inline mr-2" />
-                    Location
+                    <ViewIcon size={20} className="inline mr-2" />
+                    View Cafe
                   </button>
                   <button
                     onClick={() =>

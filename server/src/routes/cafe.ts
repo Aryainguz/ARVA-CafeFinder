@@ -7,15 +7,24 @@ import { isAdmin } from "../middlewares/isAdmin";
 const app = express.Router();
 
 
-app.post("/new",isAdmin,upload,createCafe)
+// app.post("/new",isAdmin,upload,createCafe)  isAdmin to be used for admin only access
+app.post("/new",upload,createCafe)
 
 app.get("/all",getAllCafes)
+
+
+// app
+//   .route("/:id")
+//   .get(getCafeById)
+//   .put(isAdmin,upload,updateCafe)
+//   .delete(isAdmin,deleteCafe);  // isAdmin to be used for admin only access
+
 
 
 app
   .route("/:id")
   .get(getCafeById)
-  .put(isAdmin,upload,updateCafe)
-  .delete(isAdmin,deleteCafe);
+  .put(upload,updateCafe)
+  .delete(deleteCafe);  
 
 export default app;
