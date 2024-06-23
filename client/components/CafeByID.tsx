@@ -1,5 +1,3 @@
-import { Eye, Plus } from 'lucide-react'
-import Image from 'next/image'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,11 +8,62 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import { Plus } from 'lucide-react';
+import Image from 'next/image';
 
 
-export default function CafeHero({data,cafeImg,cafeName}:any) {
+export default function CafeByID({data,cafeImg,cafeName}:any) {
 
+  const handleRazorPay = async (price: number) => {
+    const res = await initializeRazorpay();
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    const options: any = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: price * 100, 
+      currency: "INR",
+      name: "ARVA HEALTH",
+      description: "ARVA Health Payment Gateway",
+      image: "/cafe.png",
+      handler: function (response: any) {
+        alert(`Payment Successful. Payment ID: ${response.razorpay_payment_id}`);
+      },
+      prefill: {
+        name: "Aryan Inguz",
+        email: "aryaninguz369@gmail.com",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "CafeByID",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const paymentObject = new (window as any).Razorpay(options);
+    paymentObject.open();
+  };
+
+  const initializeRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
   
   return (
     <>
@@ -28,7 +77,7 @@ export default function CafeHero({data,cafeImg,cafeName}:any) {
             'w-full h-[40vh] scale-[1.9] min-[450px]:scale-[1.4] min-[572px]:scale-100'
           }
           style={{ objectFit: 'contain' }}
-          alt="CafeHero"
+          alt="CafeByID"
           priority
         />
       </div>
@@ -46,34 +95,14 @@ export default function CafeHero({data,cafeImg,cafeName}:any) {
                 {data.map((product:any) => (
 
 
-                    // <div className="relative group">
-                    //     <div className="overflow-hidden aspect-w-1 aspect-h-1">
-                    //         <img className="object-cover w-72 h-72 transition-all duration-300 group-hover:scale-125" src={product.image} alt="" />
-                    //     </div>
-                    //     <div className="absolute left-3 top-3">
-                    //         <p className="sm:px-3 sm:py-1.5 px-1.5 py-1 text-[8px] sm:text-xs font-bold tracking-wide text-gray-900 uppercase bg-white rounded-full">{product.category}</p>
-                    //     </div>
-                    //     <div className="flex items-start justify-between mt-4 space-x-4">
-                    //         <div>
-                    //             <h3 className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-                    //                     {product.name}
-                    //                     <span className="absolute inset-0" aria-hidden="true"></span>
-                    //             </h3>
-                    //             <div className="flex items-center mt-2.5 space-x-px">
-                                   
-                    //             </div>
-                    //         </div>
-        
-                    //         <div className="text-right">
-                    //             <p className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">Rs. {product.price}</p>
-                    //         </div>
-                    //     </div>
-                    // </div>
+                   
                     <div className="relative group cursor-pointer">
                     <div>
                     <img className="object-cover w-72 h-72 transition-all duration-300" src={product.image} alt="" />
                     </div>
-            
+                    <div className="absolute left-3 top-3">
+                            <p className="sm:px-3 sm:py-1.5 px-1.5 py-1 text-[8px] sm:text-xs font-bold tracking-wide text-gray-900 uppercase bg-white rounded-full">{product.category}</p>
+                         </div>
                   
                     <div className="flex items-start justify-between mt-4 space-x-4">
                       <div>
@@ -101,12 +130,12 @@ export default function CafeHero({data,cafeImg,cafeName}:any) {
     <AlertDialogHeader>
       <AlertDialogTitle>Do you wanna order this product!</AlertDialogTitle>
       <AlertDialogDescription>
-      On confiriming payment gateway will be opened.
+      On confiriming payment gateway will be opened. Bill of Rs {product.price}
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
       <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction>Continue</AlertDialogAction>
+      <AlertDialogAction onClick={()=>handleRazorPay(product.price)}>Pay</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>

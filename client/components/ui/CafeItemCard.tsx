@@ -4,7 +4,6 @@ import Image from "next/image";
 const CafeItemCard = ({ cafe,showDetails }: any) => {
 
 
-    const BASE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&height=100";
   return (
     <>
       <div
@@ -14,7 +13,7 @@ onClick={()=>showDetails(cafe)}
       >
        <Image
             className="rounded-t-lg h-[200px] w-full object-cover"
-            src={`${BASE_PHOTO_URL}&photo_reference=${cafe.photos[0].photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACE_KEY}`}
+            src={cafe.image}
             alt="icon"
             width={500}
             height={100}

@@ -17,11 +17,10 @@ export default function Home() {
   }, [])
 
   const getCafeLists = async () => {
-    const res = await fetch('/api/google-place-api?q=cafes in bangalore')
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/cafe/all`)
     const data = await res.json()
-    console.log(data)
-    setCafesList(data.data.results)
-    console.log(data.data.results)
+    console.log(data.cafes)
+    setCafesList(data.cafes)
     setIsLoading(false)
   } 
 
@@ -36,7 +35,7 @@ export default function Home() {
       return cafe.price_level === 2
     }
     if(filter === 'Open') {
-      return cafe.opening_hours.open_now
+      return cafe.open_now
     }
     if (filter == null) {
       return cafe

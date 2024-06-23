@@ -1,8 +1,7 @@
 "use client"
-import CafeHero from '@/components/CafeHero'
+import CafeByID from '@/components/CafeByID'
 import Footer from '@/components/Footer'
-import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const page = ({params}:any) => {
 
@@ -37,7 +36,7 @@ const page = ({params}:any) => {
 
     return(
   <>
-  <CafeHero data={data} cafeImg={cafeImg} cafeName={cafeName}/>
+  <CafeByID data={data} cafeImg={cafeImg} cafeName={cafeName}/>
   <Footer/>
   </>
     )

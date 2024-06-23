@@ -131,9 +131,7 @@ export default function Cafes({ cafesList,isLoading }: any) {
               {showSide && (
                 <>
                   <Image
-                    src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&height=100
-              &photo_reference=${selectedCafe?.photos[0].photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACE_KEY}
-                `}
+                    src={selectedCafe.image}
                     className="rounded-t-lg h-[200px] w-full object-cover my-4"
                     alt="cafe"
                     width={200}
