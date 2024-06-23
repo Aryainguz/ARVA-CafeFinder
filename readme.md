@@ -19,7 +19,14 @@ This project is a full-stack TypeScript application featuring a Next.js frontend
 - The application uses the Google Maps API to fetch location-based data, such as nearby cafes. This enhances the user experience by providing relevant information based on their location, which is fetched and displayed dynamically within the application.
 
 
-## Backend Setup
+## Backend Endpoints (Get, Post, Put, Delete for each route )
+
+- https://arva-api.campuslink.in/api/v1/cafe/all : get all cafes
+- https://arva-api.campuslink.in/api/v1/product/all : get all products
+- https://arva-api.campuslink.in/api/v1/cafe/:id : get by id, update by id, delete by id
+- https://arva-api.campuslink.in/api/v1/product/:id : get by cafe id, update by id, delete by id
+- Miscellaneous - isAdmin middleware to check admin and crud for admin model
+
 
 ### Prerequisites
 
