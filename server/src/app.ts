@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 app.use(express.json());
 
 // Specify allowed origins
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000","https://arva-cafe-finder.vercel.app"];
 
 // Use the CORS middleware with options
 app.use(
